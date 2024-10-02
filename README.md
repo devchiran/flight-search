@@ -18,6 +18,14 @@ npm install
 
 ## Steps for running the code
 
+Open first terminal for redis
+
+```bash
+redis-server
+```
+
+Open second terminal for node
+
 ```bash
 npm start
 ```

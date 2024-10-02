@@ -71,5 +71,16 @@ export const getSearchFlight = async (req, res) => {
 };
 
 const getDistanceBetweenAirports = (code1, code2) => {
+  // Tried to use the https://openflights.org/ endpoint, but not able to ge the response.
+  // URL used: https://openflights.org/php/apsearch.php?iata=YYZ&country=ALL&dst=U&db=airports&iatafilter=true&action=SEARCH&offset=0
+
+  // Plan for this sectioon of code
+  /*
+  1. Use the origin code (code1) and desination code (code2) to get the latitude and 
+     longitude for each [Using a PROMISE, so that the next step is process only after both the calls are resolved]
+  2. Use the "Haversine" npm package to calculate the distance passing the received 
+     latitude and longitude of both - origin and destination
+  3. Return the real distance (instead of fixed 200)
+  */
   return 200;
 };

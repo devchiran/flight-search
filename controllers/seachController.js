@@ -13,7 +13,6 @@ export const getSearchFlight = async (req, res) => {
   const reqDepart = new Date(departure).getTime();
   const reqArrival = new Date(arrival).getTime();
 
-  console.log('1----- : ', flights.length);
   const filterFlights = flights.reduce((prev, curr) => {
     const receivedDepart = new Date(curr.departureTime).getTime();
     const receivedArrival = new Date(curr.arrivalTime).getTime();
@@ -27,23 +26,15 @@ export const getSearchFlight = async (req, res) => {
       receivedDepart <= reqArrival &&
       (!reqDuration || reqDuration >= receivedDuration)
     ) {
-      // console.log("3 --- : ", receivedDuration);
       const score =
-        receivedDuration * (reqCarrier ? 1 : 0.9) +
+        receivedDuration * (reqCarrier === curr.carrier ? 0.9 : 1) +
         getDistanceBetweenAirports();
       prev = [...prev, { ...curr, duration: receivedDuration, score }];
     }
     return prev;
   }, []);
 
-  const filterFlightsByCarrier = filterFlights.filter(
-    (flight) => flight.carrier === reqCarrier,
-  );
-
-  console.log('2----- : ', filterFlightsByCarrier.length);
-  const sortedByScore = filterFlightsByCarrier.sort(
-    (a, b) => a.score - b.score,
-  );
+  const sortedByScore = filterFlights.sort((a, b) => a.score - b.score);
 
   return res.send(sortedByScore);
 };
